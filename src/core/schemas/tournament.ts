@@ -59,6 +59,21 @@ const deckSummarySchema = z
   })
   .passthrough();
 
+/** VGC: one Pokémon row in GET /tournaments/{id}/standings `decklist` */
+export const vgcDecklistPokemonSchema = z
+  .object({
+    id: z.string(),
+    name: z.string(),
+    item: z.string(),
+    ability: z.string(),
+    attacks: z.array(z.string()),
+    tera: z.string().nullable(),
+  })
+  .passthrough();
+
+/** VGC: full decklist array for a standing row */
+export const vgcDecklistSchema = z.array(vgcDecklistPokemonSchema);
+
 /** GET /tournaments/{id}/standings row */
 export const standingRowSchema = z.object({
   player: z.string(),
@@ -66,8 +81,8 @@ export const standingRowSchema = z.object({
   country: z.string().nullable().optional(),
   placing: z.number().nullable().optional(),
   record: recordSchema.optional(),
-  // TODO(per-game): refine when testing API calls for PTCG/VGC/POCKET; see NEXT_STEPS.md
-  decklist: z.unknown().optional(),
+  // VGC decklist is typed; other games fall back via z.unknown(); see NEXT_STEPS.md
+  decklist: z.union([vgcDecklistSchema, z.unknown()]).optional(),
   // TODO(per-game): refine when testing API calls for PTCG/VGC/POCKET; see NEXT_STEPS.md
   deck: z
     .union([deckSummarySchema, z.object({}).passthrough()])
