@@ -80,8 +80,8 @@ Example:
         data,
         (color) => {
           const rows = data.map((d) => [
-            d.identifier,
-            d.name,
+            d.identifier ?? '—',
+            d.name ?? '—',
             String((d.variants?.length ?? 0) + (d.cards?.length ? 1 : 0)),
           ]);
           return tableFromRows(['id', 'name', 'rules~'], rows, color);
