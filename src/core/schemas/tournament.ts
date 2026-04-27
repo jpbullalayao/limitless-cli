@@ -39,9 +39,8 @@ export const tournamentDetailsSchema = z.object({
   isPublic: z.boolean().optional(),
   isOnline: z.boolean().optional(),
   phases: z.array(phaseSchema).optional(),
-  // TODO(per-game): refine when testing API calls for PTCG/VGC/POCKET; see NEXT_STEPS.md
+  // TODO(per-game): VGC omits these fields; refine from API samples for games that return them; see NEXT_STEPS.md
   bannedCards: z.array(z.unknown()).optional(),
-  // TODO(per-game): refine when testing API calls for PTCG/VGC/POCKET; see NEXT_STEPS.md
   specialRules: z.array(z.string()).optional(),
 });
 
@@ -59,7 +58,6 @@ const deckSummarySchema = z
   })
   .passthrough();
 
-/** VGC: one Pokémon row in GET /tournaments/{id}/standings `decklist` */
 export const vgcDecklistPokemonSchema = z
   .object({
     id: z.string(),
@@ -71,7 +69,6 @@ export const vgcDecklistPokemonSchema = z
   })
   .passthrough();
 
-/** VGC: full decklist array for a standing row */
 export const vgcDecklistSchema = z.array(vgcDecklistPokemonSchema);
 
 /** GET /tournaments/{id}/standings row */
