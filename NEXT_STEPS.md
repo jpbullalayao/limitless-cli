@@ -8,9 +8,9 @@ Search the codebase for `TODO(per-game)` (or run `rg "TODO\\(per-game\\)" src/`)
 
 | Location | Field / area | Current handling | What to verify |
 |----------|----------------|------------------|----------------|
-| [src/resources/tournament.ts](src/resources/tournament.ts) ~L22 | `--game` filter validation | Regex `^[A-Z0-9_]{1,32}$` (case-insensitive) | Confirm allowed game ids with `/games` for PTCG, VGC, POCKET, etc. |
+| [src/resources/tournament.ts](src/resources/tournament.ts) ~L22 | `--game` filter validation | Regex `^[A-Z0-9_]{1,32}$` (case-insensitive) | Confirm allowed game ids with `/games` for PTCG, POCKET, etc. |
 | [src/resources/tournament.ts](src/resources/tournament.ts) ~L32 | `--format` filter validation | Max length 64 | Confirm format string rules from API errors / docs |
-| [src/core/schemas/tournament.ts](src/core/schemas/tournament.ts) | `bannedCards`, `specialRules` on details | `z.array(z.unknown())`, `z.array(z.string())` | VGC: not returned by API (verified). Other games: pin payloads under `docs/samples/<game>/details.json` |
+| [src/core/schemas/tournament.ts](src/core/schemas/tournament.ts) | `bannedCards`, `specialRules` on details | `z.array(z.unknown())`, `z.array(z.string())` | Other games: pin payloads under `docs/samples/<game>/details.json` |
 | [src/core/schemas/tournament.ts](src/core/schemas/tournament.ts) | `decklist`, `deck` on standings | `decklist`: union (typed array branch + `unknown`); `deck`: loose object | Remaining games: pin samples and add schemas or split by `game` |
 | [src/core/schemas/game.ts](src/core/schemas/game.ts) ~L7–9 | `formats`, `platforms` on game list | `z.record(z.string())` | Confirm empty vs missing; large maps in table view |
 | [src/resources/game.ts](src/resources/game.ts) (table branch) | Game list table columns | Counts of format/platform keys only | Consider per-game columns or `raw`/`json` as default for wide data |
@@ -37,7 +37,7 @@ Search the codebase for `TODO(per-game)` (or run `rg "TODO\\(per-game\\)" src/`)
 Track validation against live responses:
 
 1. **Decklist field shape varies by game.** Official docs: `decklist` in standings is "(game specific)". Current: one validated array shape plus `z.unknown()` for everything else; table still uses `deck` for summary when possible. **Check off** when samples exist and schemas cover each game you care about.
-2. **`bannedCards` / `specialRules` shapes are game-specific.** VGC tournament details do not include these (verified). Current: loose arrays. **Check off** after sampling tournament details for games that return them (e.g. PTCG, POCKET).
+2. **`bannedCards` / `specialRules` shapes are game-specific.** Current: loose arrays. **Check off** after sampling tournament details for games that return them (e.g. PTCG, POCKET).
 3. **Error body schema** not fully documented. Current: status + first 200 chars of body. **Check off** when non-2xx JSON shape is documented or captured.
 4. **Anonymous rate-limit ceiling** not specified. Current: 429 retries with backoff. **Check off** under load testing.
 5. **`game list` formats/platforms maps are open-ended.** Current: `z.record(z.string())`; table shows counts. **Check off** after UX review.
