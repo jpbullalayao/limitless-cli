@@ -1,8 +1,8 @@
 import type { Command } from 'commander';
-import { CliError } from '../core/errors.js';
+import type { z } from 'zod';
 import type { CliContext } from '../core/context.js';
-import { printData, tableFromRows, resolveOutputFormat } from '../core/output.js';
-import { z } from 'zod';
+import { CliError } from '../core/errors.js';
+import { printData, resolveOutputFormat, tableFromRows } from '../core/output.js';
 import {
   pairingsSchema,
   standingsSchema,
@@ -22,17 +22,16 @@ function mustParse<T>(schema: z.ZodType<T>, data: unknown, what: string): T {
 // TODO(per-game): refine when testing API calls for PTCG/VGC/POCKET; see NEXT_STEPS.md
 function validateGameFilter(s: string | undefined): void {
   if (s && !/^[A-Z0-9_]{1,32}$/i.test(s)) {
-    throw new CliError(
-      `Invalid --game value: use letters, digits, or underscore (e.g. PTCG)`,
-      { code: 'usage-error' },
-    );
+    throw new CliError('Invalid --game value: use letters, digits, or underscore (e.g. PTCG)', {
+      code: 'usage-error',
+    });
   }
 }
 
 // TODO(per-game): refine when testing API calls for PTCG/VGC/POCKET; see NEXT_STEPS.md
 function validateFormatFilter(s: string | undefined): void {
   if (s && s.length > 64) {
-    throw new CliError(`Invalid --format value: too long`, { code: 'usage-error' });
+    throw new CliError('Invalid --format value: too long', { code: 'usage-error' });
   }
 }
 
@@ -77,13 +76,13 @@ Examples:
           : undefined;
         const limit = cmdOpts.limit ? Number.parseInt(cmdOpts.limit, 10) : undefined;
         const page = cmdOpts.page ? Number.parseInt(cmdOpts.page, 10) : undefined;
-        if (cmdOpts.organizerId && Number.isNaN(organizerId!)) {
+        if (organizerId !== undefined && Number.isNaN(organizerId)) {
           throw new CliError('Invalid --organizerId', { code: 'usage-error' });
         }
-        if (cmdOpts.limit && (Number.isNaN(limit!) || limit! < 1)) {
+        if (limit !== undefined && (Number.isNaN(limit) || limit < 1)) {
           throw new CliError('Invalid --limit', { code: 'usage-error' });
         }
-        if (cmdOpts.page && (Number.isNaN(page!) || page! < 1)) {
+        if (page !== undefined && (Number.isNaN(page) || page < 1)) {
           throw new CliError('Invalid --page', { code: 'usage-error' });
         }
         const query: Record<string, string | number | undefined> = {};
@@ -110,18 +109,8 @@ Examples:
           out,
           data,
           (color) => {
-            const rows = data.map((x) => [
-              x.id,
-              x.game,
-              x.name,
-              x.date,
-              x.players ?? '—',
-            ]);
-            return tableFromRows(
-              ['id', 'game', 'name', 'date', 'players'],
-              rows,
-              color,
-            );
+            const rows = data.map((x) => [x.id, x.game, x.name, x.date, x.players ?? '—']);
+            return tableFromRows(['id', 'game', 'name', 'date', 'players'], rows, color);
           },
           ctx.global.noColor,
         );
@@ -141,16 +130,18 @@ Example:
       const ctx = await getCtx();
       const out = resolveOutputFormat(getOutputFlag(), process.env.LIMITLESS_OUTPUT);
       const data = await ctx.http.getJson(
-        { path: `/tournaments/${encodeURIComponent(id)}/details`, auth: ctx.auth, requireAuth: false },
+        {
+          path: `/tournaments/${encodeURIComponent(id)}/details`,
+          auth: ctx.auth,
+          requireAuth: false,
+        },
         (j) => mustParse(tournamentDetailsSchema, j, 'tournament details'),
       );
       printData(
         out,
         data,
         (color) => {
-          const ph = (data.phases ?? [])
-            .map((p) => `${p.type} r${p.rounds} ${p.mode}`)
-            .join('; ');
+          const ph = (data.phases ?? []).map((p) => `${p.type} r${p.rounds} ${p.mode}`).join('; ');
           const rows: (string | number)[][] = [
             ['id', data.id],
             ['game', data.game],
@@ -160,11 +151,7 @@ Example:
             ['organizer', data.organizer ? `${data.organizer.name} (#${data.organizer.id})` : '—'],
             ['phases', ph || '—'],
           ];
-          return tableFromRows(
-            ['field', 'value'],
-            rows,
-            color,
-          );
+          return tableFromRows(['field', 'value'], rows, color);
         },
         ctx.global.noColor,
       );
@@ -176,7 +163,11 @@ Example:
       const ctx = await getCtx();
       const out = resolveOutputFormat(getOutputFlag(), process.env.LIMITLESS_OUTPUT);
       const data = await ctx.http.getJson(
-        { path: `/tournaments/${encodeURIComponent(id)}/standings`, auth: ctx.auth, requireAuth: false },
+        {
+          path: `/tournaments/${encodeURIComponent(id)}/standings`,
+          auth: ctx.auth,
+          requireAuth: false,
+        },
         (j) => mustParse(standingsSchema, j, 'standings'),
       );
       printData(
@@ -188,13 +179,15 @@ Example:
               s.deck && typeof s.deck === 'object' && 'name' in s.deck
                 ? String((s.deck as { name?: string }).name)
                 : '—';
-            return [s.placing ?? '—', s.player, s.name ?? '—', s.record ? `${s.record.wins}-${s.record.losses}` : '—', deckInfo];
+            return [
+              s.placing ?? '—',
+              s.player,
+              s.name ?? '—',
+              s.record ? `${s.record.wins}-${s.record.losses}` : '—',
+              deckInfo,
+            ];
           });
-          return tableFromRows(
-            ['#', 'player', 'name', 'record', 'deck'],
-            rows,
-            color,
-          );
+          return tableFromRows(['#', 'player', 'name', 'record', 'deck'], rows, color);
         },
         ctx.global.noColor,
       );
@@ -206,7 +199,11 @@ Example:
       const ctx = await getCtx();
       const out = resolveOutputFormat(getOutputFlag(), process.env.LIMITLESS_OUTPUT);
       const data = await ctx.http.getJson(
-        { path: `/tournaments/${encodeURIComponent(id)}/pairings`, auth: ctx.auth, requireAuth: false },
+        {
+          path: `/tournaments/${encodeURIComponent(id)}/pairings`,
+          auth: ctx.auth,
+          requireAuth: false,
+        },
         (j) => mustParse(pairingsSchema, j, 'pairings'),
       );
       printData(
@@ -221,11 +218,7 @@ Example:
             m.player2 ?? '—',
             String(m.winner ?? '—'),
           ]);
-          return tableFromRows(
-            ['phase', 'round', 'table', 'p1', 'p2', 'winner'],
-            rows,
-            color,
-          );
+          return tableFromRows(['phase', 'round', 'table', 'p1', 'p2', 'winner'], rows, color);
         },
         ctx.global.noColor,
       );

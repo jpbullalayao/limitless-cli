@@ -1,9 +1,15 @@
-import { Command } from 'commander';
 import * as clack from '@clack/prompts';
-import { loadConfig, saveConfig, unsetConfigFile, getConfigPath, redactToken } from '../core/config.js';
+import type { Command } from 'commander';
+import {
+  getConfigPath,
+  loadConfig,
+  redactToken,
+  saveConfig,
+  unsetConfigFile,
+} from '../core/config.js';
+import type { OutputFormat } from '../core/context.js';
 import { CliError, formatJsonError, isCliError } from '../core/errors.js';
 import { isInteractive } from '../util/tty.js';
-import type { OutputFormat } from '../core/context.js';
 
 function jsonErrMode(output: OutputFormat): boolean {
   return output === 'json' || process.env.LIMITLESS_OUTPUT === 'json';
@@ -12,7 +18,9 @@ function jsonErrMode(output: OutputFormat): boolean {
 export function registerConfigCommand(program: Command, getOutput: () => OutputFormat) {
   const cmd = program
     .command('config')
-    .description('Save or inspect the optional API token for higher rate limits and /games/{id}/decks')
+    .description(
+      'Save or inspect the optional API token for higher rate limits and /games/{id}/decks',
+    )
     .option('--token <key>', 'set API token non-interactively')
     .option('--show', 'print config (token redacted)')
     .option('--unset', 'remove saved config file')
@@ -36,11 +44,11 @@ export function registerConfigCommand(program: Command, getOutput: () => OutputF
           const c = await loadConfig();
           if (json) {
             process.stdout.write(
-              JSON.stringify(
+              `${JSON.stringify(
                 { version: c.version, token: c.token ? redactToken(c.token) : null },
                 null,
                 2,
-              ) + '\n',
+              )}\n`,
             );
             return;
           }
@@ -72,7 +80,11 @@ export function registerConfigCommand(program: Command, getOutput: () => OutputF
         await saveConfig({ ...current, token: token.trim() });
         if (json) {
           process.stdout.write(
-            JSON.stringify({ ok: true, path: getConfigPath(), token: redactToken(token.trim()) }, null, 2) + '\n',
+            `${JSON.stringify(
+              { ok: true, path: getConfigPath(), token: redactToken(token.trim()) },
+              null,
+              2,
+            )}\n`,
           );
         } else {
           clack.outro(`Saved to ${getConfigPath()}`);
