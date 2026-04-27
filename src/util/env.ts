@@ -8,17 +8,7 @@ export function getOutputFromEnv(): OutputFormat | 'auto' {
   return 'auto';
 }
 
-export function getLogLevel(
-  env: string | undefined,
-  verbose: boolean,
-  quiet: boolean,
-): 'silent' | 'error' | 'warn' | 'info' | 'debug' {
-  if (quiet) {
-    return 'error';
-  }
-  if (verbose) {
-    return 'debug';
-  }
+export function getLogLevel(env: string | undefined): 'silent' | 'error' | 'warn' | 'info' | 'debug' {
   if (env === 'debug' || env === 'info' || env === 'warn' || env === 'error' || env === 'silent') {
     return env;
   }

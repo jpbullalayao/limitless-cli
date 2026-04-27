@@ -55,8 +55,6 @@ The flag does **not** write to disk.
 |--------|-------------|
 | `--api-key <key>` | API key for this run only (not saved) |
 | `-o, --output <fmt>` | `json` \| `table` \| `raw` (default: `json`) |
-| `--quiet` | Only print errors |
-| `--verbose` | Log rate limit headers and debug info to stderr |
 | `--no-color` | Disable ANSI colors |
 | `-V, --version` | Print CLI version |
 | `-h, --help` | Help (also `limitless help` and `limitless <cmd> --help`) |
@@ -76,7 +74,7 @@ The flag does **not** write to disk.
 
 - **`Error: API key is required` on `game decks`:** Request a key on [API settings](https://play.limitlesstcg.com/account/settings/api), then `limitless config --token` or set `LIMITLESS_API_TOKEN` / `limitless game decks PTCG --api-key ...`.
 - **Empty or unexpected JSON shape:** The API is game-specific for some fields; see [NEXT_STEPS.md](NEXT_STEPS.md) and `src/core/schemas/`.
-- **Rate limits:** Use `--verbose` to log rate limit headers. Consider an API key for higher limits.
+- **Rate limits:** The CLI retries `429` responses with backoff. Consider an API key for higher limits.
 
 ## License
 
