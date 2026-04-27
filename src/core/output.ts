@@ -1,6 +1,6 @@
 import Table from 'cli-table3';
 import p from 'picocolors';
-import { isInteractive, useColorEnabled } from '../util/tty.js';
+import { useColorEnabled } from '../util/tty.js';
 import type { OutputFormat } from './context.js';
 
 export type { OutputFormat };
@@ -12,20 +12,11 @@ export function resolveOutputFormat(
   if (flag === 'json' || flag === 'table' || flag === 'raw') {
     return flag;
   }
-  if (flag === 'auto' || flag === undefined) {
-    const e = envOverride;
-    if (e === 'json' || e === 'table' || e === 'raw') {
-      return e;
-    }
-    if (!isInteractive()) {
-      return 'json';
-    }
-    return 'table';
+  const e = envOverride;
+  if (e === 'json' || e === 'table' || e === 'raw') {
+    return e;
   }
-  if (!isInteractive()) {
-    return 'json';
-  }
-  return 'table';
+  return 'json';
 }
 
 export function printData(

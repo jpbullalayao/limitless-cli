@@ -54,7 +54,7 @@ The flag does **not** write to disk.
 | Option | Description |
 |--------|-------------|
 | `--api-key <key>` | API key for this run only (not saved) |
-| `-o, --output <fmt>` | `json` \| `table` \| `raw` \| `auto` (default: table in a TTY, `json` when piped / CI) |
+| `-o, --output <fmt>` | `json` \| `table` \| `raw` (default: `json`) |
 | `--quiet` | Only print errors |
 | `--verbose` | Log rate limit headers and debug info to stderr |
 | `--no-color` | Disable ANSI colors |
@@ -67,7 +67,7 @@ The flag does **not** write to disk.
 |----------|---------|
 | `LIMITLESS_API_TOKEN` | Default API key when `--api-key` is not set |
 | `LIMITLESS_CONFIG_HOME` | Override directory for the config file |
-| `LIMITLESS_OUTPUT` | `json` \| `table` \| `raw` (overrides TTY default when not using `-o`) |
+| `LIMITLESS_OUTPUT` | `json` \| `table` \| `raw` (overrides default when not using `-o`) |
 | `LIMITLESS_LOG` | `debug` \| `info` \| `warn` \| `error` \| `silent` |
 | `LIMITLESS_NONINTERACTIVE` | Set to `1` to skip prompts; use `limitless config --token` in CI |
 | `CI` | Treated as non-interactive; default output is `json` when using `auto` |

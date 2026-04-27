@@ -23,7 +23,7 @@ program
     'Command-line interface for the Limitless TCG public API (tournaments, games, and more).\n\nDocs: https://docs.limitlesstcg.com/developer.html',
   )
   .option('--api-key <key>', 'API key for this request only (not saved; precedence over env and config)')
-  .option('-o, --output <fmt>', 'output: json | table | raw | auto (default: table in TTY, json when piped/CI)', 'auto')
+  .option('-o, --output <fmt>', 'output: json | table | raw (default: json)')
   .option('--quiet', 'only print errors', false)
   .option('--verbose', 'verbose logging (e.g. rate limit headers)', false)
   .option('--no-color', 'disable ANSI colors', false);
