@@ -24,8 +24,8 @@ const cardRuleSchema = z
 
 const variantSchema = z
   .object({
-    identifier: z.string(),
-    name: z.string(),
+    identifier: z.string().nullable(),
+    name: z.string().nullable(),
     icon: z.string().optional(),
     cards: z.array(cardRuleSchema).optional(),
   })
@@ -34,9 +34,9 @@ const variantSchema = z
 /** GET /games/{id}/decks item */
 export const gameDeckRuleSchema = z
   .object({
-    identifier: z.string(),
-    name: z.string(),
-    cards: z.array(z.unknown()).optional(),
+    identifier: z.string().nullable(),
+    name: z.string().nullable(),
+    cards: z.array(cardRuleSchema).optional(),
     priority: z.number().optional(),
     variants: z.array(variantSchema).optional(),
     icons: z.array(z.string()).optional(),
