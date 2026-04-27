@@ -1,6 +1,6 @@
-import type { LogLevel } from './context.js';
 import p from 'picocolors';
 import { useColorEnabled } from '../util/tty.js';
+import type { LogLevel } from './context.js';
 
 const levels: LogLevel[] = ['silent', 'error', 'warn', 'info', 'debug'];
 const order = (l: LogLevel) => levels.indexOf(l);

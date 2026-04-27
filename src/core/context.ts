@@ -1,8 +1,8 @@
-import type { ConfigFile } from './config.js';
-import type { ResolvedAuth } from './auth.js';
-import { ApiClient } from './http.js';
-import { Logger } from './logger.js';
 import { useColorEnabled } from '../util/tty.js';
+import type { ResolvedAuth } from './auth.js';
+import type { ConfigFile } from './config.js';
+import type { ApiClient } from './http.js';
+import { Logger } from './logger.js';
 
 export type LogLevel = 'silent' | 'error' | 'warn' | 'info' | 'debug';
 

@@ -1,17 +1,17 @@
 #!/usr/bin/env node
 import { Command } from 'commander';
-import { getVersion } from './util/version.js';
-import { loadConfig } from './core/config.js';
-import { resolveAuth, getEnvToken } from './core/auth.js';
-import { getLogLevel } from './util/env.js';
-import { createLogger } from './core/context.js';
-import { resolveOutputFormat } from './core/output.js';
-import { ApiClient } from './core/http.js';
-import { formatJsonError, isCliError } from './core/errors.js';
 import { registerConfigCommand } from './commands/config.js';
-import { registerTournament } from './resources/tournament.js';
-import { registerGame } from './resources/game.js';
+import { getEnvToken, resolveAuth } from './core/auth.js';
+import { loadConfig } from './core/config.js';
+import { createLogger } from './core/context.js';
 import type { CliContext, LogLevel, OutputFormat } from './core/context.js';
+import { formatJsonError, isCliError } from './core/errors.js';
+import { ApiClient } from './core/http.js';
+import { resolveOutputFormat } from './core/output.js';
+import { registerGame } from './resources/game.js';
+import { registerTournament } from './resources/tournament.js';
+import { getLogLevel } from './util/env.js';
+import { getVersion } from './util/version.js';
 
 const program = new Command();
 
@@ -22,7 +22,10 @@ program
   .description(
     'Command-line interface for the Limitless TCG public API (tournaments, games, and more).\n\nDocs: https://docs.limitlesstcg.com/developer.html',
   )
-  .option('--api-key <key>', 'API key for this request only (not saved; precedence over env and config)')
+  .option(
+    '--api-key <key>',
+    'API key for this request only (not saved; precedence over env and config)',
+  )
   .option('-o, --output <fmt>', 'output: json | table | raw (default: json)')
   .option('--no-color', 'disable ANSI colors', false);
 
@@ -86,15 +89,14 @@ program
   .description('Show help (alias: limitless --help)')
   .action((topic?: string) => {
     if (topic) {
-      process.stderr.write('Use: limitless ' + topic + ' --help (or: limitless --help ' + topic + ')\n');
+      process.stderr.write(`Use: limitless ${topic} --help (or: limitless --help ${topic})\n`);
     }
     program.help();
   });
 
-program
-  .action(() => {
-    program.help();
-  });
+program.action(() => {
+  program.help();
+});
 
 function printError(e: unknown, asJson: boolean) {
   if (isCliError(e)) {

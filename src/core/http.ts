@@ -1,6 +1,6 @@
 import { getVersion } from '../util/version.js';
-import { CliError } from './errors.js';
 import type { ResolvedAuth } from './auth.js';
+import { CliError } from './errors.js';
 
 export const API_BASE = 'https://play.limitlesstcg.com/api';
 
@@ -81,10 +81,10 @@ export class ApiClient {
           throw new CliError('Request timed out', { code: 'network-error', cause: e });
         }
         if (attempt >= MAX_RETRIES) {
-          throw new CliError(
-            e instanceof Error ? e.message : 'Network error',
-            { code: 'network-error', cause: e },
-          );
+          throw new CliError(e instanceof Error ? e.message : 'Network error', {
+            code: 'network-error',
+            cause: e,
+          });
         }
         await sleep(jitterMs(200 * 2 ** attempt));
         continue;
@@ -99,11 +99,9 @@ export class ApiClient {
           );
         }
         const ra = res.headers.get('retry-after');
-        const waitSec = ra ? Number.parseInt(ra, 10) : NaN;
+        const waitSec = ra ? Number.parseInt(ra, 10) : Number.NaN;
         const delay =
-          Number.isFinite(waitSec) && waitSec > 0
-            ? waitSec * 1000
-            : jitterMs(200 * 2 ** attempt);
+          Number.isFinite(waitSec) && waitSec > 0 ? waitSec * 1000 : jitterMs(200 * 2 ** attempt);
         await sleep(delay);
         continue;
       }

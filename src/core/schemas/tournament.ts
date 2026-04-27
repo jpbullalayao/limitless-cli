@@ -69,7 +69,10 @@ export const standingRowSchema = z.object({
   // TODO(per-game): refine when testing API calls for PTCG/VGC/POCKET; see NEXT_STEPS.md
   decklist: z.unknown().optional(),
   // TODO(per-game): refine when testing API calls for PTCG/VGC/POCKET; see NEXT_STEPS.md
-  deck: z.union([deckSummarySchema, z.object({}).passthrough()]).optional().nullable(),
+  deck: z
+    .union([deckSummarySchema, z.object({}).passthrough()])
+    .optional()
+    .nullable(),
   drop: z.number().nullable().optional(),
 });
 

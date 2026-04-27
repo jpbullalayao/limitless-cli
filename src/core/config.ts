@@ -1,8 +1,8 @@
-import { mkdir, readFile, writeFile, chmod, access } from 'node:fs/promises';
-import { dirname } from 'node:path';
-import envPaths from 'env-paths';
-import { join } from 'node:path';
 import { constants } from 'node:fs';
+import { access, chmod, mkdir, readFile, writeFile } from 'node:fs/promises';
+import { dirname } from 'node:path';
+import { join } from 'node:path';
+import envPaths from 'env-paths';
 import { CliError } from './errors.js';
 
 const SCHEMA_VERSION = 1;

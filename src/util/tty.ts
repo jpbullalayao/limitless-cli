@@ -2,7 +2,10 @@ export function isInteractive(): boolean {
   if (process.env.CI === 'true' || process.env.CI === '1') {
     return false;
   }
-  if (process.env.LIMITLESS_NONINTERACTIVE === '1' || process.env.LIMITLESS_NONINTERACTIVE === 'true') {
+  if (
+    process.env.LIMITLESS_NONINTERACTIVE === '1' ||
+    process.env.LIMITLESS_NONINTERACTIVE === 'true'
+  ) {
     return false;
   }
   return Boolean(process.stdout.isTTY);
