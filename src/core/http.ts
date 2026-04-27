@@ -1,6 +1,5 @@
 import { getVersion } from '../util/version.js';
 import { CliError } from './errors.js';
-import type { Logger } from './logger.js';
 import type { ResolvedAuth } from './auth.js';
 
 export const API_BASE = 'https://play.limitlesstcg.com/api';
@@ -43,15 +42,6 @@ function userAgent(): string {
 }
 
 export class ApiClient {
-  constructor(
-    private log: Logger,
-    private verbose: boolean,
-  ) {}
-
-  setVerbose(v: boolean) {
-    this.verbose = v;
-  }
-
   private headers(auth: ResolvedAuth, requireAuth: boolean): HeadersInit {
     const h: Record<string, string> = {
       Accept: 'application/json',
@@ -73,25 +63,6 @@ export class ApiClient {
       h['X-Access-Key'] = auth.token;
     }
     return h;
-  }
-
-  private logRateLimitHeaders(res: Response) {
-    if (!this.verbose) {
-      return;
-    }
-    const pick = [
-      'ratelimit-limit',
-      'ratelimit-remaining',
-      'ratelimit-reset',
-      'x-ratelimit-limit',
-      'x-ratelimit-remaining',
-    ];
-    for (const name of pick) {
-      const v = res.headers.get(name);
-      if (v) {
-        this.log.debug(`[http] ${name}: ${v}`);
-      }
-    }
   }
 
   async getJson<T>(opts: RequestOptions, parse: (j: unknown) => T): Promise<T> {
@@ -118,8 +89,6 @@ export class ApiClient {
         await sleep(jitterMs(200 * 2 ** attempt));
         continue;
       }
-
-      this.logRateLimitHeaders(res);
 
       if (res.status === 429 || (res.status >= 500 && res.status < 600)) {
         if (attempt >= MAX_RETRIES) {

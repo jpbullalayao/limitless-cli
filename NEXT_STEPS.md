@@ -39,7 +39,7 @@ Track validation against live responses:
 1. **Decklist field shape varies by game.** Official docs: `decklist` in standings is "(game specific)". Current: `z.unknown()`; table shows summary via `deck` when possible. **Check off** when samples exist for each game.
 2. **`bannedCards` / `specialRules` shapes are game-specific.** Current: loose arrays. **Check off** after sampling tournament details per game.
 3. **Error body schema** not fully documented. Current: status + first 200 chars of body. **Check off** when non-2xx JSON shape is documented or captured.
-4. **Anonymous rate-limit ceiling** not specified. Current: `--verbose` logs relevant headers; 429 retries with backoff. **Check off** under load testing.
+4. **Anonymous rate-limit ceiling** not specified. Current: 429 retries with backoff. **Check off** under load testing.
 5. **`game list` formats/platforms maps are open-ended.** Current: `z.record(z.string())`; table shows counts. **Check off** after UX review.
 6. **`--game` validation.** Current: no hard-coded enum; regex + API rejection. **Check off** if `/games` discovery is added for autocomplete.
 

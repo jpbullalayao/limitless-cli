@@ -24,16 +24,12 @@ program
   )
   .option('--api-key <key>', 'API key for this request only (not saved; precedence over env and config)')
   .option('-o, --output <fmt>', 'output: json | table | raw (default: json)')
-  .option('--quiet', 'only print errors', false)
-  .option('--verbose', 'verbose logging (e.g. rate limit headers)', false)
   .option('--no-color', 'disable ANSI colors', false);
 
 function getRootOpts() {
   return program.opts() as {
     apiKey?: string;
     output?: string;
-    quiet?: boolean;
-    verbose?: boolean;
     color?: boolean;
     noColor?: boolean;
   };
@@ -48,19 +44,17 @@ async function getCtx(): Promise<CliContext> {
   const opts = getRootOpts();
   const config = await loadConfig();
   const auth = resolveAuth(opts.apiKey, getEnvToken(), config);
-  const logLevel: LogLevel = getLogLevel(process.env.LIMITLESS_LOG, !!opts.verbose, !!opts.quiet);
+  const logLevel: LogLevel = getLogLevel(process.env.LIMITLESS_LOG);
   const log = createLogger(logLevel, opts.noColor);
   log.setColorFromFlags({ noColor: opts.noColor });
   const output = getResolvedOutput();
-  const http = new ApiClient(log, !!opts.verbose);
+  const http = new ApiClient();
   return {
     config,
     auth,
     global: {
       apiKey: opts.apiKey,
       output,
-      quiet: !!opts.quiet,
-      verbose: !!opts.verbose,
       noColor: opts.noColor,
     },
     log,

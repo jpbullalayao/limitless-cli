@@ -11,8 +11,6 @@ export type OutputFormat = 'json' | 'table' | 'raw';
 export type GlobalRuntime = {
   apiKey?: string;
   output: OutputFormat;
-  quiet: boolean;
-  verbose: boolean;
   noColor?: boolean;
 };
 
