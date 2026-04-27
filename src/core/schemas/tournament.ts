@@ -63,8 +63,8 @@ const deckSummarySchema = z
 export const standingRowSchema = z.object({
   player: z.string(),
   name: z.string().optional(),
-  country: z.string().optional(),
-  placing: z.number().optional(),
+  country: z.string().nullable().optional(),
+  placing: z.number().nullable().optional(),
   record: recordSchema.optional(),
   // TODO(per-game): refine when testing API calls for PTCG/VGC/POCKET; see NEXT_STEPS.md
   decklist: z.unknown().optional(),
