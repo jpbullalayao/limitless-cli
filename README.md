@@ -65,11 +65,6 @@ The flag does **not** write to disk.
 | Variable | Purpose |
 |----------|---------|
 | `LIMITLESS_API_TOKEN` | Default API key when `--api-key` is not set |
-| `LIMITLESS_CONFIG_HOME` | Override directory for the config file |
-| `LIMITLESS_OUTPUT` | `json` \| `table` \| `raw` (used when `-o` is not set) |
-| `LIMITLESS_LOG` | `debug` \| `info` \| `warn` \| `error` \| `silent` |
-| `LIMITLESS_NONINTERACTIVE` | Set to `1` or `true` to skip prompts; use `ltcg config --token` in CI |
-| `CI` | Treated as non-interactive (skips prompts) |
 
 ## Troubleshooting
 

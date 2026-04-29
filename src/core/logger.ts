@@ -16,7 +16,7 @@ export class Logger {
   }
 
   setColorFromFlags(opts: { noColor?: boolean }) {
-    this.color = useColorEnabled(!!opts.noColor, process.env.FORCE_COLOR);
+    this.color = useColorEnabled(!!opts.noColor);
   }
 
   private shouldLog(level: LogLevel): boolean {

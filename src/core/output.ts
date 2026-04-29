@@ -5,16 +5,9 @@ import type { OutputFormat } from './context.js';
 
 export type { OutputFormat };
 
-export function resolveOutputFormat(
-  flag: string | undefined,
-  envOverride: string | undefined,
-): OutputFormat {
+export function resolveOutputFormat(flag: string | undefined): OutputFormat {
   if (flag === 'json' || flag === 'table' || flag === 'raw') {
     return flag;
-  }
-  const e = envOverride;
-  if (e === 'json' || e === 'table' || e === 'raw') {
-    return e;
   }
   return 'json';
 }
@@ -25,7 +18,7 @@ export function printData(
   renderTable: (color: boolean) => string,
   noColor?: boolean,
 ): void {
-  const color = useColorEnabled(!!noColor, process.env.FORCE_COLOR);
+  const color = useColorEnabled(!!noColor);
   if (format === 'json') {
     process.stdout.write(`${JSON.stringify(data, null, 2)}\n`);
     return;

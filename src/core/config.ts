@@ -13,9 +13,6 @@ export type ConfigFile = {
 };
 
 function getConfigFilePath(): string {
-  if (process.env.LIMITLESS_CONFIG_HOME) {
-    return join(process.env.LIMITLESS_CONFIG_HOME, 'config.json');
-  }
   const paths = envPaths('limitless-cli', { suffix: 'config' });
   return join(paths.config, 'config.json');
 }
