@@ -2,7 +2,7 @@ import { getVersion } from '../util/version.js';
 import type { ResolvedAuth } from './auth.js';
 import { CliError } from './errors.js';
 
-export const API_BASE = 'https://play.limitlesstcg.com/api';
+const API_BASE = 'https://play.limitlesstcg.com/api';
 
 const MAX_RETRIES = 3;
 
@@ -14,7 +14,7 @@ function jitterMs(base: number) {
   return base + Math.floor(Math.random() * 200);
 }
 
-export type RequestOptions = {
+type RequestOptions = {
   path: string;
   query?: Record<string, string | number | boolean | undefined>;
   auth: ResolvedAuth;

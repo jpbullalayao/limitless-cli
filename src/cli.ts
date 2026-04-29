@@ -3,9 +3,8 @@ import { Command } from 'commander';
 import { registerConfigCommand } from './commands/config.js';
 import { getEnvToken, resolveAuth } from './core/auth.js';
 import { loadConfig } from './core/config.js';
-import { createLogger } from './core/context.js';
-import type { CliContext, LogLevel, OutputFormat } from './core/context.js';
-import { formatJsonError, isCliError } from './core/errors.js';
+import type { CliContext, OutputFormat } from './core/context.js';
+import { isCliError, writeCliError } from './core/errors.js';
 import { ApiClient } from './core/http.js';
 import { resolveOutputFormat } from './core/output.js';
 import { registerGame } from './resources/game.js';
@@ -46,9 +45,6 @@ async function getCtx(): Promise<CliContext> {
   const opts = getRootOpts();
   const config = await loadConfig();
   const auth = resolveAuth(opts.apiKey, getEnvToken(), config);
-  const logLevel: LogLevel = 'info';
-  const log = createLogger(logLevel, opts.noColor);
-  log.setColorFromFlags({ noColor: opts.noColor });
   const output = getResolvedOutput();
   const http = new ApiClient();
   return {
@@ -59,7 +55,6 @@ async function getCtx(): Promise<CliContext> {
       output,
       noColor: opts.noColor,
     },
-    log,
     http,
   };
 }
@@ -95,19 +90,7 @@ program.action(() => {
 
 function printError(e: unknown, asJson: boolean) {
   if (isCliError(e)) {
-    if (asJson) {
-      process.stderr.write(`${JSON.stringify(formatJsonError(e), null, 2)}\n`);
-    } else {
-      process.stderr.write(`Error: ${e.message}\n`);
-      if (e.hint) {
-        process.stderr.write(`  ${e.hint}\n`);
-      }
-      process.stderr.write(`  Code: ${e.code}\n`);
-      if (e.docsUrl) {
-        process.stderr.write(`  Docs: ${e.docsUrl}\n`);
-      }
-    }
-    process.exitCode = e.exit;
+    writeCliError(e, asJson);
     return;
   }
   if (e instanceof Error) {
