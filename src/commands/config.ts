@@ -64,12 +64,12 @@ export function registerConfigCommand(program: Command, getOutput: () => OutputF
               code: 'usage-error',
             });
           }
-          clack.intro('limitless config');
+
           token = (await clack.text({
-            message: 'Limitless API token (optional, used for /games/.../decks and rate limits)',
-            placeholder: 'paste token or leave empty to skip saving',
+            message: 'Please specify your Limitless API token',
             initialValue: process.env.LIMITLESS_API_TOKEN ?? '',
           })) as string;
+
           if (!token || token.trim() === '') {
             clack.outro('No token saved.');
             return;
