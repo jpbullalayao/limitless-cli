@@ -18,7 +18,7 @@ const program = new Command();
 program.version(getVersion(), '-V, --version');
 
 program
-  .name('limitless')
+  .name('ltcg')
   .description(
     'Command-line interface for the Limitless TCG public API (tournaments, games, and more).\n\nDocs: https://docs.limitlesstcg.com/developer.html',
   )
@@ -79,17 +79,17 @@ Environment:
   LIMITLESS_LOG         debug | info | warn | error | silent
   LIMITLESS_NONINTERACTIVE=1  Disable prompts; use flags for config.
 
-Auth order: --api-key > LIMITLESS_API_TOKEN > saved token from \`limitless config\`.
-Most endpoints work without a key. \`limitless game decks <id>\` requires an approved API key.
+Auth order: --api-key > LIMITLESS_API_TOKEN > saved token from \`ltcg config\`.
+Most endpoints work without a key. \`ltcg game decks <id>\` requires an approved API key.
 `,
 );
 
 program
   .command('help [topic]')
-  .description('Show help (alias: limitless --help)')
+  .description('Show help (alias: ltcg --help)')
   .action((topic?: string) => {
     if (topic) {
-      process.stderr.write(`Use: limitless ${topic} --help (or: limitless --help ${topic})\n`);
+      process.stderr.write(`Use: ltcg ${topic} --help (or: ltcg --help ${topic})\n`);
     }
     program.help();
   });

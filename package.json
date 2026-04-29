@@ -1,5 +1,5 @@
 {
-  "name": "limitless",
+  "name": "limitless-cli",
   "version": "0.1.0",
   "description": "CLI for the Limitless TCG public API (tournaments, games, and more).",
   "type": "module",
@@ -7,7 +7,7 @@
     "node": ">=18.17"
   },
   "bin": {
-    "limitless": "./bin/limitless.js"
+    "ltcg": "./bin/ltcg.js"
   },
   "files": [
     "dist",
@@ -27,6 +27,7 @@
     "release": "changeset publish"
   },
   "keywords": [
+    "limitless-cli",
     "limitless",
     "tcg",
     "cli"

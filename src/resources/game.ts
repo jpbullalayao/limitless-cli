@@ -29,7 +29,7 @@ export function registerGame(
       'after',
       `
 Example:
-  $ limitless game list
+  $ ltcg game list
 `,
     )
     .action(async () => {
@@ -61,7 +61,7 @@ Example:
       'after',
       `
 Example:
-  $ LIMITLESS_API_TOKEN=... limitless game decks PTCG --output json
+  $ LIMITLESS_API_TOKEN=... ltcg game decks PTCG
 `,
     )
     .action(async (id: string) => {
