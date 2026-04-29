@@ -4,9 +4,9 @@ import { z } from 'zod';
 export const gameItemSchema = z.object({
   id: z.string(),
   name: z.string(),
-  // TODO(per-game): refine when testing API calls for PTCG/POCKET; see NEXT_STEPS.md
+  // TODO(per-game): refine when validating live API responses for PTCG/POCKET
   formats: z.record(z.string()).optional(),
-  // TODO(per-game): refine when testing API calls for PTCG/POCKET; see NEXT_STEPS.md
+  // TODO(per-game): refine when validating live API responses for PTCG/POCKET
   platforms: z.record(z.string()).optional(),
   metagame: z.boolean().optional(),
 });

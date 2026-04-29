@@ -14,8 +14,7 @@
     "bin",
     "README.md",
     "LICENSE",
-    "CHANGELOG.md",
-    "NEXT_STEPS.md"
+    "CHANGELOG.md"
   ],
   "scripts": {
     "build": "tsc -p .",
