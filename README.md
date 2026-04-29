@@ -1,4 +1,4 @@
-# limitless-cli (ltcg)
+# limitless-cli
 
 Command-line interface for the [Limitless TCG](https://play.limitlesstcg.com) public API: tournaments, games, and related data.
 
@@ -42,8 +42,8 @@ ltcg config
 
 # Non-interactive
 ltcg config --token YOUR_KEY
-ltcg config --show    # redacted
-ltcg config --path     # show config file path
+ltcg config --show    
+ltcg config --path    
 ltcg config --unset
 ```
 
