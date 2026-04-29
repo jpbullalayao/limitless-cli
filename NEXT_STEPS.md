@@ -17,16 +17,16 @@ Search the codebase for `TODO(per-game)` (or run `rg "TODO\\(per-game\\)" src/`)
 
 ## Production hardening backlog
 
-- **Shell completion** — `limitless completion bash|zsh|fish` (Commander built-in + dynamic action lists).
+- **Shell completion** — `ltcg completion bash|zsh|fish` (Commander built-in + dynamic action lists).
 - **Telemetry** — off by default; opt-in via `LIMITLESS_TELEMETRY=1`; document privacy.
 - **OS keychain** — optional `keytar` (lazy `import`) for token storage instead of plain file.
 - **`--all` pagination** — for `tournament list`, iterate `page` until empty with a sane cap.
 - **`--watch` / polling** — live tournament updates with backoff; webhooks later ([webhooks docs](https://docs.limitlesstcg.com/developer/webhooks)).
 - **`update-notifier`** — notify on newer npm version (Vercel-style).
-- **`limitless doctor`** — Node version, config file permissions, network, token smoke test.
+- **`ltcg doctor`** — Node version, config file permissions, network, token smoke test.
 - **Typo suggestions** — Levenshtein on unknown subcommands/actions (Cobra-style).
 - **i18n** — centralize strings; English-only at first.
-- **`limitless listen`** — local webhook forwarder (Stripe CLI–style) if needed.
+- **`ltcg listen`** — local webhook forwarder (Stripe CLI–style) if needed.
 - **OpenAPI / codegen** — if Limitless publishes an OpenAPI spec, generate clients and resource commands.
 - **`esbuild` bundle** — optional single-file `bin` for faster cold start (keep `tsc` as default).
 - **Signed releases** — npm provenance (see release workflow) + GitHub Releases attestations.
@@ -56,4 +56,4 @@ Suggested filenames: `docs/samples/PTCG/tournaments-list.json`, `docs/samples/PT
 ## Release / changesets
 
 - Use [Changesets](https://github.com/changesets/changesets): `pnpm changeset` → merge “Version Packages” PR → tag → publish.
-- Post-publish smoke: `npx -y limitless@<version> --version` and `npx -y limitless@<version> game list`.
+- Post-publish smoke: `npx -p limitless-cli@<version> ltcg --version` and `npx -p limitless-cli@<version> ltcg game list`.

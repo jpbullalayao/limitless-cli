@@ -55,8 +55,8 @@ export function registerTournament(
       'after',
       `
 Examples:
-  $ limitless tournament list --game PTCG --limit 25
-  $ limitless tournament list --organizerId 1 --page 2
+  $ ltcg tournament list --game PTCG --limit 25
+  $ ltcg tournament list --organizerId 1 --page 2
 `,
     )
     .action(
@@ -123,7 +123,7 @@ Examples:
       'after',
       `
 Example:
-  $ limitless tournament get 63fcb6d32fb42a11441fb777 --output json
+  $ ltcg tournament get 63fcb6d32fb42a11441fb777
 `,
     )
     .action(async (id: string) => {

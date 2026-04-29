@@ -50,7 +50,7 @@ export class ApiClient {
     if (requireAuth) {
       if (!auth.token) {
         throw new CliError(
-          'API key is required. Set LIMITLESS_API_TOKEN, use `limitless config`, or pass --api-key.',
+          'API key is required. Set LIMITLESS_API_TOKEN, use `ltcg config`, or pass --api-key.',
           {
             code: 'auth-missing-token',
             hint: 'The /games/{id}/decks endpoint requires an approved API key.',

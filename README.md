@@ -1,34 +1,35 @@
-# limitless
+# limitless-cli
 
 Command-line interface for the [Limitless TCG](https://play.limitlesstcg.com) public API: tournaments, games, and related data.
 
 - **API documentation:** <https://docs.limitlesstcg.com/developer.html>
-- **Install:** `npm i -g limitless` or `pnpm add -g limitless` or `yarn global add limitless`
-- **Run without install:** `npx limitless --help`
+- **Install** (npm package `limitless-cli`; binary on your PATH is `ltcg`):
+  - `npm i -g limitless-cli` or `pnpm add -g limitless-cli` or `yarn global add limitless-cli`
+- **Run without install:** `npx -p limitless-cli ltcg --help`
 
 ## Quick start
 
 ```bash
 # Version
-limitless --version
+ltcg --version
 
 # List supported games (no API key required)
-limitless game list
+ltcg game list
 
 # List recent tournaments
-limitless tournament list --limit 10
+ltcg tournament list --limit 10
 
 # Filter tournaments
-limitless tournament list --game PTCG --format STANDARD --page 1
+ltcg tournament list --game PTCG --format STANDARD --page 1
 
 # Tournament details, standings, pairings
-limitless tournament get <tournament-id>
-limitless tournament standings <tournament-id>
-limitless tournament pairings <tournament-id>
+ltcg tournament get <tournament-id>
+ltcg tournament standings <tournament-id>
+ltcg tournament pairings <tournament-id>
 
 # Deck categorization rules (requires an approved API key)
-export LIMITLESS_API_TOKEN=...   # or: limitless config --token ...
-limitless game decks PTCG --output json
+export LIMITLESS_API_TOKEN=...   # or: ltcg config --token ...
+ltcg game decks PTCG --output json
 ```
 
 ## Config (optional)
@@ -37,16 +38,16 @@ Most endpoints work **without** an API key. A key is required for `GET /games/{i
 
 ```bash
 # Interactive: save API token
-limitless config
+ltcg config
 
 # Non-interactive
-limitless config --token YOUR_KEY
-limitless config --show    # redacted
-limitless config --path     # show config file path
-limitless config --unset
+ltcg config --token YOUR_KEY
+ltcg config --show    
+ltcg config --path    
+ltcg config --unset
 ```
 
-**Auth precedence (highest first):** `--api-key` → `LIMITLESS_API_TOKEN` → saved config from `limitless config`.  
+**Auth precedence (highest first):** `--api-key` → `LIMITLESS_API_TOKEN` → saved config from `ltcg config`.  
 The flag does **not** write to disk.
 
 ## Global options
@@ -57,7 +58,7 @@ The flag does **not** write to disk.
 | `-o, --output <fmt>` | `json` \| `table` \| `raw` (default: `json`) |
 | `--no-color` | Disable ANSI colors |
 | `-V, --version` | Print CLI version |
-| `-h, --help` | Help (also `limitless help` and `limitless <cmd> --help`) |
+| `-h, --help` | Help (also `ltcg help` and `ltcg <cmd> --help`) |
 
 ## Environment
 
@@ -65,14 +66,14 @@ The flag does **not** write to disk.
 |----------|---------|
 | `LIMITLESS_API_TOKEN` | Default API key when `--api-key` is not set |
 | `LIMITLESS_CONFIG_HOME` | Override directory for the config file |
-| `LIMITLESS_OUTPUT` | `json` \| `table` \| `raw` (overrides default when not using `-o`) |
+| `LIMITLESS_OUTPUT` | `json` \| `table` \| `raw` (used when `-o` is not set) |
 | `LIMITLESS_LOG` | `debug` \| `info` \| `warn` \| `error` \| `silent` |
-| `LIMITLESS_NONINTERACTIVE` | Set to `1` to skip prompts; use `limitless config --token` in CI |
-| `CI` | Treated as non-interactive; default output is `json` when using `auto` |
+| `LIMITLESS_NONINTERACTIVE` | Set to `1` or `true` to skip prompts; use `ltcg config --token` in CI |
+| `CI` | Treated as non-interactive (skips prompts) |
 
 ## Troubleshooting
 
-- **`Error: API key is required` on `game decks`:** Request a key on [API settings](https://play.limitlesstcg.com/account/settings/api), then `limitless config --token` or set `LIMITLESS_API_TOKEN` / `limitless game decks PTCG --api-key ...`.
+- **`Error: API key is required` on `game decks`:** Request a key on [API settings](https://play.limitlesstcg.com/account/settings/api), then `ltcg config --token` or set `LIMITLESS_API_TOKEN` / `ltcg game decks PTCG --api-key ...`.
 - **Empty or unexpected JSON shape:** The API is game-specific for some fields; see [NEXT_STEPS.md](NEXT_STEPS.md) and `src/core/schemas/`.
 - **Rate limits:** The CLI retries `429` responses with backoff. Consider an API key for higher limits.
 
