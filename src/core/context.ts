@@ -23,6 +23,6 @@ export type CliContext = {
 };
 
 export function createLogger(level: LogLevel, noColor?: boolean): Logger {
-  const color = useColorEnabled(!!noColor, process.env.FORCE_COLOR);
+  const color = useColorEnabled(!!noColor);
   return new Logger(level, color);
 }

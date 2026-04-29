@@ -12,7 +12,7 @@ import { CliError, formatJsonError, isCliError } from '../core/errors.js';
 import { isInteractive } from '../util/tty.js';
 
 function jsonErrMode(output: OutputFormat): boolean {
-  return output === 'json' || process.env.LIMITLESS_OUTPUT === 'json';
+  return output === 'json';
 }
 
 export function registerConfigCommand(program: Command, getOutput: () => OutputFormat) {
@@ -67,7 +67,6 @@ export function registerConfigCommand(program: Command, getOutput: () => OutputF
 
           token = (await clack.text({
             message: 'Please specify your Limitless API token',
-            initialValue: process.env.LIMITLESS_API_TOKEN ?? '',
           })) as string;
 
           if (!token || token.trim() === '') {

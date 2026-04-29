@@ -10,7 +10,6 @@ import { ApiClient } from './core/http.js';
 import { resolveOutputFormat } from './core/output.js';
 import { registerGame } from './resources/game.js';
 import { registerTournament } from './resources/tournament.js';
-import { getLogLevel } from './util/env.js';
 import { getVersion } from './util/version.js';
 
 const program = new Command();
@@ -40,14 +39,14 @@ function getRootOpts() {
 
 function getResolvedOutput(): OutputFormat {
   const o = getRootOpts();
-  return resolveOutputFormat(o.output, process.env.LIMITLESS_OUTPUT);
+  return resolveOutputFormat(o.output);
 }
 
 async function getCtx(): Promise<CliContext> {
   const opts = getRootOpts();
   const config = await loadConfig();
   const auth = resolveAuth(opts.apiKey, getEnvToken(), config);
-  const logLevel: LogLevel = getLogLevel(process.env.LIMITLESS_LOG);
+  const logLevel: LogLevel = 'info';
   const log = createLogger(logLevel, opts.noColor);
   log.setColorFromFlags({ noColor: opts.noColor });
   const output = getResolvedOutput();
@@ -74,10 +73,6 @@ program.addHelpText(
   `
 Environment:
   LIMITLESS_API_TOKEN   Optional. Used when --api-key is not set. Precedence: --api-key > env > saved config.
-  LIMITLESS_CONFIG_HOME Directory for config file (default: per-OS app config).
-  LIMITLESS_OUTPUT      json | table | raw (overrides TTY default when not using -o)
-  LIMITLESS_LOG         debug | info | warn | error | silent
-  LIMITLESS_NONINTERACTIVE=1  Disable prompts; use flags for config.
 
 Auth order: --api-key > LIMITLESS_API_TOKEN > saved token from \`ltcg config\`.
 Most endpoints work without a key. \`ltcg game decks <id>\` requires an approved API key.
@@ -127,7 +122,7 @@ try {
   await program.parseAsync(process.argv, { from: 'node' });
 } catch (e) {
   const out = getResolvedOutput();
-  const asJson = out === 'json' || process.env.LIMITLESS_OUTPUT === 'json';
+  const asJson = out === 'json';
   printError(e, asJson);
   if (process.exitCode == null || process.exitCode === undefined) {
     process.exitCode = 1;

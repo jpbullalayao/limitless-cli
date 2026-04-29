@@ -68,7 +68,7 @@ Examples:
         page?: string;
       }) => {
         const ctx = await getCtx();
-        const out = resolveOutputFormat(getOutputFlag(), process.env.LIMITLESS_OUTPUT);
+        const out = resolveOutputFormat(getOutputFlag());
         validateGameFilter(cmdOpts.game);
         validateFormatFilter(cmdOpts.format);
         const organizerId = cmdOpts.organizerId
@@ -128,7 +128,7 @@ Example:
     )
     .action(async (id: string) => {
       const ctx = await getCtx();
-      const out = resolveOutputFormat(getOutputFlag(), process.env.LIMITLESS_OUTPUT);
+      const out = resolveOutputFormat(getOutputFlag());
       const data = await ctx.http.getJson(
         {
           path: `/tournaments/${encodeURIComponent(id)}/details`,
@@ -161,7 +161,7 @@ Example:
     .description('Tournament standings (GET /tournaments/{id}/standings)')
     .action(async (id: string) => {
       const ctx = await getCtx();
-      const out = resolveOutputFormat(getOutputFlag(), process.env.LIMITLESS_OUTPUT);
+      const out = resolveOutputFormat(getOutputFlag());
       const data = await ctx.http.getJson(
         {
           path: `/tournaments/${encodeURIComponent(id)}/standings`,
@@ -197,7 +197,7 @@ Example:
     .description('Tournament pairings (GET /tournaments/{id}/pairings)')
     .action(async (id: string) => {
       const ctx = await getCtx();
-      const out = resolveOutputFormat(getOutputFlag(), process.env.LIMITLESS_OUTPUT);
+      const out = resolveOutputFormat(getOutputFlag());
       const data = await ctx.http.getJson(
         {
           path: `/tournaments/${encodeURIComponent(id)}/pairings`,

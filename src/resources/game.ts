@@ -34,7 +34,7 @@ Example:
     )
     .action(async () => {
       const ctx = await getCtx();
-      const out = resolveOutputFormat(getOutputFlag(), process.env.LIMITLESS_OUTPUT);
+      const out = resolveOutputFormat(getOutputFlag());
       const data = await ctx.http.getJson(
         { path: '/games', auth: ctx.auth, requireAuth: false },
         (j) => mustParse(gameListSchema, j, 'games list'),
@@ -61,12 +61,12 @@ Example:
       'after',
       `
 Example:
-  $ LIMITLESS_API_TOKEN=... ltcg game decks PTCG
+  $ ltcg config --token YOUR_KEY && ltcg game decks PTCG
 `,
     )
     .action(async (id: string) => {
       const ctx = await getCtx();
-      const out = resolveOutputFormat(getOutputFlag(), process.env.LIMITLESS_OUTPUT);
+      const out = resolveOutputFormat(getOutputFlag());
       const data = await ctx.http.getJson(
         {
           path: `/games/${encodeURIComponent(id)}/decks`,
