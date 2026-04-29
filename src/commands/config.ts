@@ -8,7 +8,7 @@ import {
   unsetConfigFile,
 } from '../core/config.js';
 import type { OutputFormat } from '../core/context.js';
-import { CliError, formatJsonError, isCliError } from '../core/errors.js';
+import { CliError, isCliError, writeCliError } from '../core/errors.js';
 import { isInteractive } from '../util/tty.js';
 
 function jsonErrMode(output: OutputFormat): boolean {
@@ -90,16 +90,7 @@ export function registerConfigCommand(program: Command, getOutput: () => OutputF
         }
       } catch (e) {
         if (isCliError(e)) {
-          if (json) {
-            process.stderr.write(`${JSON.stringify(formatJsonError(e), null, 2)}\n`);
-          } else {
-            process.stderr.write(`Error: ${e.message}\n`);
-            if (e.hint) {
-              process.stderr.write(`  ${e.hint}\n`);
-            }
-            process.stderr.write(`  Code: ${e.code}\n`);
-          }
-          process.exitCode = e.exit;
+          writeCliError(e, json);
         } else {
           throw e;
         }

@@ -1,18 +1,8 @@
 import type { Command } from 'commander';
-import type { z } from 'zod';
 import type { CliContext } from '../core/context.js';
-import { CliError } from '../core/errors.js';
 import { printData, resolveOutputFormat, tableFromRows } from '../core/output.js';
 import { gameDecksSchema, gameListSchema } from '../core/schemas/game.js';
-function mustParse<T>(schema: z.ZodType<T>, data: unknown, what: string): T {
-  const r = schema.safeParse(data);
-  if (!r.success) {
-    throw new CliError(`Response validation failed for ${what}: ${r.error.message}`, {
-      code: 'validation-error',
-    });
-  }
-  return r.data;
-}
+import { mustParse } from '../core/validate.js';
 
 export function registerGame(
   program: Command,

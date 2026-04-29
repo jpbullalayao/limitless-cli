@@ -8,7 +8,7 @@ export type ErrorCode =
   | 'network-error'
   | 'config-io-error';
 
-export const exitCodeByKind: Record<ErrorCode, 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 130> = {
+const exitCodeByKind: Record<ErrorCode, 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 130> = {
   'generic-error': 1,
   'usage-error': 2,
   'auth-missing-token': 3,
@@ -61,4 +61,21 @@ export function formatJsonError(e: CliError): {
       ...(e.docsUrl ? { docs: e.docsUrl } : {}),
     },
   };
+}
+
+/** Writes a CliError to stderr and sets `process.exitCode`. */
+export function writeCliError(e: CliError, json: boolean): void {
+  if (json) {
+    process.stderr.write(`${JSON.stringify(formatJsonError(e), null, 2)}\n`);
+  } else {
+    process.stderr.write(`Error: ${e.message}\n`);
+    if (e.hint) {
+      process.stderr.write(`  ${e.hint}\n`);
+    }
+    process.stderr.write(`  Code: ${e.code}\n`);
+    if (e.docsUrl) {
+      process.stderr.write(`  Docs: ${e.docsUrl}\n`);
+    }
+  }
+  process.exitCode = e.exit;
 }
