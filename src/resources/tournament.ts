@@ -19,7 +19,7 @@ function mustParse<T>(schema: z.ZodType<T>, data: unknown, what: string): T {
   return r.data;
 }
 
-// TODO(per-game): refine when testing API calls for PTCG/VGC/POCKET; see NEXT_STEPS.md
+// TODO(per-game): refine when validating live API responses for PTCG/VGC/POCKET
 function validateGameFilter(s: string | undefined): void {
   if (s && !/^[A-Z0-9_]{1,32}$/i.test(s)) {
     throw new CliError('Invalid --game value: use letters, digits, or underscore (e.g. PTCG)', {
@@ -28,7 +28,7 @@ function validateGameFilter(s: string | undefined): void {
   }
 }
 
-// TODO(per-game): refine when testing API calls for PTCG/VGC/POCKET; see NEXT_STEPS.md
+// TODO(per-game): refine when validating live API responses for PTCG/VGC/POCKET
 function validateFormatFilter(s: string | undefined): void {
   if (s && s.length > 64) {
     throw new CliError('Invalid --format value: too long', { code: 'usage-error' });

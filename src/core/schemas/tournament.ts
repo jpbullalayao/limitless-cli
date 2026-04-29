@@ -39,7 +39,7 @@ export const tournamentDetailsSchema = z.object({
   isPublic: z.boolean().optional(),
   isOnline: z.boolean().optional(),
   phases: z.array(phaseSchema).optional(),
-  // TODO(per-game): VGC omits these fields; refine from API samples for games that return them; see NEXT_STEPS.md
+  // TODO(per-game): VGC omits these fields; refine from API samples for games that return them
   bannedCards: z.array(z.unknown()).optional(),
   specialRules: z.array(z.string()).optional(),
 });
@@ -78,9 +78,9 @@ export const standingRowSchema = z.object({
   country: z.string().nullable().optional(),
   placing: z.number().nullable().optional(),
   record: recordSchema.optional(),
-  // VGC decklist is typed; other games fall back via z.unknown(); see NEXT_STEPS.md
+  // VGC decklist is typed; other games fall back via z.unknown()
   decklist: z.union([vgcDecklistSchema, z.unknown()]).optional(),
-  // TODO(per-game): refine when testing API calls for PTCG/VGC/POCKET; see NEXT_STEPS.md
+  // TODO(per-game): refine when validating live API responses for PTCG/VGC/POCKET
   deck: z
     .union([deckSummarySchema, z.object({}).passthrough()])
     .optional()

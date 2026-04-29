@@ -69,7 +69,7 @@ The flag does **not** write to disk.
 ## Troubleshooting
 
 - **`Error: API key is required` on `game decks`:** Request a key on [API settings](https://play.limitlesstcg.com/account/settings/api), then `ltcg config --token` or set `LIMITLESS_API_TOKEN` / `ltcg game decks PTCG --api-key ...`.
-- **Empty or unexpected JSON shape:** The API is game-specific for some fields; see [NEXT_STEPS.md](NEXT_STEPS.md) and `src/core/schemas/`.
+- **Empty or unexpected JSON shape:** The API is game-specific for some fields; see the [developer docs](https://docs.limitlesstcg.com/developer.html) and `src/core/schemas/`.
 - **Rate limits:** The CLI retries `429` responses with backoff. Consider an API key for higher limits.
 
 ## License

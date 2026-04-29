@@ -43,7 +43,7 @@ Example:
         out,
         data,
         (color) => {
-          // TODO(per-game): refine when testing API calls for PTCG/VGC/POCKET; see NEXT_STEPS.md
+          // TODO(per-game): refine when validating live API responses for PTCG/VGC/POCKET
           const rows = data.map((x) => {
             const fmtCount = x.formats ? Object.keys(x.formats).length : 0;
             const platCount = x.platforms ? Object.keys(x.platforms).length : 0;

@@ -317,7 +317,7 @@ ltcg game decks PTCG --api-key "$LIMITLESS_API_TOKEN" -o json
 
 ### Pagination
 
-Use **`--limit`** and **`--page`** on `tournament list`. There is **no** `--all` flag yet (iterate pages in your script if needed); see project `NEXT_STEPS.md`.
+Use **`--limit`** and **`--page`** on `tournament list`. There is **no** `--all` flag yet—iterate pages in your script if needed.
 
 ---
 
@@ -327,7 +327,7 @@ Use **`--limit`** and **`--page`** on `tournament list`. There is **no** `--all`
 |---------|------------|
 | **`API key is required`** on `game decks` | Set `LIMITLESS_API_TOKEN`, run `ltcg config --token …`, or pass `--api-key`. |
 | **401 / 403** | Invalid or revoked key; verify at API settings. |
-| **Empty or unexpected JSON** on standings (`decklist`, etc.) | Shapes are **game-specific** per API; see `NEXT_STEPS.md` and `src/core/schemas/` in the CLI repo. |
+| **Empty or unexpected JSON** on standings (`decklist`, etc.) | Shapes are **game-specific** per API; see the Limitless developer docs and `src/core/schemas/` in the CLI repo. |
 | **Rate limits** | CLI retries 429; consider an approved API key for higher limits. |
 
 ---
